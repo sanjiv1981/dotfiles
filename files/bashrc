@@ -113,8 +113,10 @@ alias cif='/home/sanjiv/ManuallyInstalled/espresso-5.3.0/PW/tools/cif2qe.sh'
 alias cif2qe='/home/sanjiv/ManuallyInstalled/espresso-5.3.0/PW/tools/cif2qe.sh'
 alias xc='xcrysden'
 alias jm='jmol'
-source /home/sanjiv/ManuallyInstalled/g09/bsd/g09.profile
 alias ene='grep -E '\''SCF Done'\'''
+if [ -f /home/sanjiv/ManuallyInstalled/g09/bsd/g09.profile ]; then
+        source /home/sanjiv/ManuallyInstalled/g09/bsd/g09.profile
+fi
 alias gcat='grep -E '\''Step number|Item|Maximum |RMS     F|RMS     D'\'''
 alias force="grep -E 'Total force|!'"
 alias step="grep -E 'bfgs steps'"
