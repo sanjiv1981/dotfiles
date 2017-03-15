@@ -1,0 +1,19 @@
+# $1 is QE output to read
+# $2 is the # of atoms in the system 
+# it prints how many components are above threshold
+grep -E "   force " $1 > a
+tail -n $2 a > b
+awk '{if ($7>0.001 || $7<-0.001)
+print $7
+else printf ""
+}' b > forces
+awk '{if ($8>0.001 || $8<-0.001)
+print $8
+else printf ""
+}' b >> forces
+awk '{if ($9>0.001 || $9<-0.001)
+print $9
+else printf ""
+}' b >> forces
+wc -l forces
+rm a b forces

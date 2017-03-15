@@ -1,0 +1,114 @@
+############################################################################
+#cr                                                                       
+#cr            (C) Copyright 1995-2007 The Board of Trustees of the            
+#cr                        University of Illinois                         
+#cr                         All Rights Reserved                           
+#cr                                                                       
+############################################################################
+
+############################################################################
+# RCS INFORMATION:
+#
+#       $RCSfile: .vmdrc,v $
+#       $Author: johns $        $Locker:  $                $State: Exp $
+#       $Revision: 1.9 $      $Date: 2007/01/12 20:12:44 $
+#
+############################################################################
+# DESCRIPTION:
+#
+# VMD startup script.  The commands here are executed as soon as VMD starts up
+############################################################################
+
+# turn on lights 0 and 1
+light 0 on
+light 1 on
+#light 2 off
+#light 3 off
+light 2 on
+light 3 on
+
+# position the stage and axes
+#axes location lowerleft
+axes location off ; # Turn off axes
+stage location off
+## color
+# change background color
+color Display Background white
+#color Display Background 8
+#color Display Foreground black
+#color Display FPS black
+#color Axes Labels black
+#color Display FPS 16
+#color Axes Labels 16
+
+# display
+display projection Orthographic; # Orthographic/Perspective
+mol modstyle 0 0 CPK 1.000000 0.300000 10.000000 10.000000
+display depthcue off
+
+#mol representation DynamicBonds 2.500000 0.100000 6.000000
+#mol representation Polyhedra 2.500000
+#mol representation CPK 0.4 0.3 10.0 6.0  ;# sphere scale, bond radius, sphere res, bond res
+
+
+
+#mol default style CPK
+#mol default color Element
+#color Display Background white
+#color Element Si silver
+#color Element P red
+#color Labels Atoms black
+#color Labels Bonds blue
+
+
+# Redefine Colors
+############################################################################
+
+#color Name C 7; # 7 for green
+#color Type C 7
+color Name C 23; # 23 for blue 2
+color Type C 23
+
+
+color Name F 12; # 12 for lime
+color Type F 12 
+
+#color Name C green
+#    color Type C green
+color Name C rgb 0 0.1 0.2 0.7 ;# blue
+    color Type C rgb 0 0.1 0.2 0.7 ;# blue
+
+    color change rgb 0 0.1 0.2 0.7 ;# blue
+    color change rgb 1 0.7 0.2 0.1 ;# red
+    color change rgb 3 0.7 0.4 0.0 ;# orange
+    color change rgb 4 0.8 0.7 0.1 ;# yellow
+    color change rgb 7 0.1 0.7 0.2 ;# green
+    color change rgb 0 0.1 0.2 0.7 ;# blue
+
+# position and turn on menus
+menu main     move 5   225
+menu display  move 395 30
+menu graphics move 395 500
+menu color    move 125 225
+menu files    move 125 325
+menu labels   move 125 525
+menu render   move 125 525
+
+menu main      on
+#menu display  on
+#menu graphics on
+#menu color    on
+#menu labels   on
+#menu render   on
+#menu files    on
+
+# start the scene a-rockin'
+# rock y by 1
+
+# User's default values for newly loaded molecules/reps, etc
+#  mol default color {colorID 5}
+#  mol default style {NewCartoon 0.300000 6.000000 4.100000 0}
+#  mol default selection {name CA}
+#  mol default material {Transparent}
+
+

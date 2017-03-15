@@ -1,0 +1,192 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+#source /home/sanjiv/ManuallyInstalled/g09/bsd/g09.profile         #this is for gaussian
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ge='gedit'
+alias xyzguido='java -jar /home/sanjiv/ManuallyInstalled/XYZViewer/XYZViewer_097.jar'
+alias dispersion='java -jar /home/sanjiv/ManuallyInstalled/XYZViewer/XYZViewer_097.jar'
+alias dis='java -jar /home/sanjiv/ManuallyInstalled/XYZViewer/XYZViewer_097.jar'
+alias cl3='ssh -X sanjiv@master.cl3.nmsu.edu'
+alias whisper='ssh -X sanjiv@whisper.nmsu.edu'
+alias alb='ssh -X sjha@albacore.st.usm.edu'
+alias albacore='ssh -X sjha@albacore.st.usm.edu'
+alias flo='ssh -X sjha@flory.usm.edu'
+alias flory='ssh -X sjha@flory.usm.edu'
+alias dirac='ssh -X sanjiv@dirac.nmsu.edu'
+alias physics='ssh -X sanjiv@physics.nmsu.edu'
+alias hpc='ssh -X r2229@hpcwoods.olemiss.edu'
+alias seq='ssh r2229@sequoia.mcsr.olemiss.edu'
+alias catalpa='ssh r2229@catalpa.olemiss.edu'
+alias vesta='/home/sanjiv/ManuallyInstalled/VESTA-x86_64/VESTA'
+alias pwgui='/home/sanjiv/ManuallyInstalled/pwgui'
+alias update='sudo apt-get update'
+alias upgrade='sudo apt-get upgrade'
+alias uu='sudo apt-get update && upgrade'
+alias dist='sudo apt-get dist-upgrade'
+alias cif='/home/sanjiv/ManuallyInstalled/espresso-5.3.0/PW/tools/cif2qe.sh'
+alias cif2qe='/home/sanjiv/ManuallyInstalled/espresso-5.3.0/PW/tools/cif2qe.sh'
+alias xc='xcrysden'
+alias jm='jmol'
+source /home/sanjiv/ManuallyInstalled/g09/bsd/g09.profile
+alias ene='grep -E '\''SCF Done'\'''
+alias gcat='grep -E '\''Step number|Item|Maximum |RMS     F|RMS     D'\'''
+alias force="grep -E 'Total force|!'"
+alias step="grep -E 'bfgs steps'"
+alias both="grep -E 'bfgs steps|Total force|!'"
+alias vi='vim'
+alias py='python'
+alias oku='okular'
+alias evi='evince'
+alias reboot='sudo reboot'
+alias itera='grep -E '\''Iteration|>'\'''
+alias yak='yakuake &'
+
+
+umask 022
+# some more ls aliases
+alias ls='ls -F --color=tty'
+#alias la='ls -a --color=tty'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias gnu='gnuplot'
+alias avo='avogadro'
+alias kw='kwrite'
+alias desk='cd ~/Desktop'
+alias down='cd ~/Downloads'
+alias bash='vim ~/.bashrc'
+alias fermi="grep -E 'Fermi energy'"
+alias ef="grep -E 'Fermi energy'"
+alias gr='grep'
+alias xdg='xdg-open'
+alias shutdown='sudo shutdown -h now'
+alias shut='sudo shutdown -h now'
+alias poweroff='sudo shutdown -h now'
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+export PATH=/home/sanjiv/ManuallyInstalled/espresso-5.3.0/bin:$PATH
+export PATH=/home/sanjiv/ManuallyInstalled/lammps-16Feb16/src:$PATH
+export PATH=/home/sanjiv/ManuallyInstalled/siesta-3.2-pl-5/Obj:$PATH
+export PATH=/home/sanjiv/ManuallyInstalled/siesta-3.2-pl-5/Util/Contrib/APostnikov:$PATH
+export PATH=/home/sanjiv/ManuallyInstalled/siesta-3.2-pl-5/Util/Vibra/Src:$PATH
+export PATH=/home/sanjiv/ManuallyInstalled/siesta-3.2-pl-5/Util/Bands:$PATH
+export PATH=/home/sanjiv/ManuallyInstalled/lammps-16Feb16/tools/python:$PATH
+
+#cif2cell environmental setting
+export PATH=/home/sanjiv/bin:$PATH
+export PATH=/home/sanjiv/ManuallyInstalled/ManuallyInstalled/cif2cell-1.2.10:$PATH
+export CIF2CELL=$HOME/cif2cell-1.0.10
+PATH="$PATH:$CIF2CELL"
+export PATH=/home/sanjiv/ManuallyInstalled//moltemplate/src:$PATH
+export MOLTEMPLATE_PATH=/home/sanjiv/ManuallyInstalled/moltemplate/common
+export PATH=/home/sanjiv/ManuallyInstalled/moltemplate/src:$PATH
+export MOLTEMPLATE_PATH="$HOME/ManuallyInstalled/moltemplate/common"
+

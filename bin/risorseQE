@@ -1,0 +1,25 @@
+for ((i=47;i<85;i++))
+do
+	pbsnodes -v n0"$i" | grep -E "ble.ncpus" >> cpuavail
+	pbsnodes -v n0"$i" | grep -E "ned.ncpus" >> cpuused
+#	pbsnodes -v n0"$i" | grep -E "ble.mem"   >> memavail
+	pbsnodes -v n0"$i" | grep -E "ned.mem"   >> memused
+done
+
+        pbsnodes -v n099 | grep -E "ble.ncpus" >> cpuavail
+        pbsnodes -v n099 | grep -E "ned.ncpus" >> cpuused
+#        pbsnodes -v n099 | grep -E "ble.mem"   >> memavail
+        pbsnodes -v n099 | grep -E "ned.mem"   >> memused
+
+for ((l=100;l<125;l++))
+do
+	pbsnodes -v n"$l" | grep -E "ble.ncpus" >> cpuavail
+        pbsnodes -v n"$l" | grep -E "ned.ncpus" >> cpuused
+#        pbsnodes -v n"$l" | grep -E "ble.mem"   >> memavail
+        pbsnodes -v n"$l" | grep -E "ned.mem"   >> memused
+done
+
+pr -mtJ cpuavail cpuused | awk '{print $3-$6 }' > CPU
+awk -F "k" '{print $1}' memused | awk '{print $3/1024}' | awk '{print 34500-$1}' > MEM
+pr -mtJ CPU MEM | awk '{print $1,"   "$2}' | sort -r > WHAT2USE_QE
+rm cpu* mem* CPU MEM

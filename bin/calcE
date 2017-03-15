@@ -1,0 +1,9 @@
+if [ $1 == '-h' ]
+then echo "\$1 output filename, \$2 stressed output filename, \$3 input filename, \$4 stressed input filename"
+else
+a=`grep -A 1 "total   stress" $1.out |tail -n 1| awk '{if ($1 < 0) printf "%2.8f \n",$1-$1-$1; else print $1}'`
+b=`grep -A 1 "total   stress" $2.out |tail -n 1| awk '{if ($1 < 0) printf "%2.8f \n", $1-$1-$1; else print $1}'`
+c=`grep "   a = " $3.in | awk '{print $3}'`
+d=`grep "   a = " $4.in | awk '{print $3}'`
+echo "scale=9;($b-$a)/(($d-$c)/$c)" | bc -l>E
+fi

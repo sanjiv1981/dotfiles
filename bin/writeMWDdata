@@ -1,0 +1,6 @@
+# run this script to get MWD as fn of Energy
+tail -n 21 output > a
+tail -n 21 neg$1.dat > b
+pr -mtJ a b | awk '{print $2, $5}' > $1plotEvsMWD.dat
+
+rm a b

@@ -1,0 +1,87 @@
+# type ./writeINP $1 $2 $3 $4 $5 $6 $7
+# $1 #atoms 
+# $2 #atom types 
+# $3 QE out filename 
+# $4 elongation factor in X direction 
+# $5 box lenght in X direction 
+# $6 QE in filename 
+# $7 needed only if you have systems with 3 atom types. In this case you need to specify if the third atom type is either N of O 
+# N.B. all filenames are supposed to be without extension
+
+if [ $1 == '-h' ]
+then head -9 /home/sanjiv/bin/writeINP
+else
+#read the coordinates from the optimization output, $1 tells how many atoms there are in the structure
+grep -B $1 "End final coordinates" $3.out | head -n $1 > coor
+
+#write the header of the input file
+echo "&CONTROL
+    calculation  = 'scf'
+    restart_mode = 'from_scratch'
+    pseudo_dir = './'
+    outdir = './tmp/',
+    prefix = 'graphene',
+    tstress = .true. ,
+    tprnfor = .true. ,
+    disk_io = 'none'
+ /
+&SYSTEM
+   ibrav = 8,
+   a = 9.87794854 ,
+   b = 29.922221322 ,    ! was 34.196824368 for 8 unit cell, this is for 7 unit cell along y
+   c = 22.00 ,
+   nat = 147, ntyp = 4,   ! replicate in xcrysden 7*4 rectangular unit cell
+   ecutwfc = 30.00 , 
+   ecutrho = 240.0 , 
+   occupations = 'smearing', smearing = 'gauss', degauss = 0.05  
+   input_dft       = 'vdW-DF2'
+ /
+ &ELECTRONS
+    diagonalization = 'david'
+    mixing_mode = 'plain'
+    conv_thr = 1.0d-7,
+    mixing_beta = 0.7,
+  /
+ATOMIC_SPECIES
+C   12.0107  C.pbe-rrkjus.UPF
+O   15.999   O.pbe-rrkjus.UPF
+H    1.008   H.pbe-rrkjus.UPF
+N   14.006   N.pbe-rrkjus.UPF
+
+ATOMIC_POSITIONS angstrom" > $6
+
+# scale the coordinates in X direction by a factor specified as $4
+awk '{print $1,"     "$2*"'"$4"'","  "$3,"  "$4}' coor >> $6
+
+# write the K_POINTS card and values in the input file
+echo "
+K_POINTS automatic
+1 1 1 0 0 0" >> $6
+
+# scale the X direction ("a" lattice parameter) in the input file
+b=`echo "$5*$4" | bc -l`
+sed 's/   a = 9.87794854 ,/   a = '$b' ,/g' $6 > $6a
+
+# change the #atoms and #atom types in the input file as specified by $1 and $2
+sed 's/   nat = 147, ntyp = 4,/   nat = '$1', ntyp = '$2'/g' $6a > $6b
+
+# change the ATOMIC_SPECIES according to $2 ; If $2=1 use C, $2=2 use C H, $2=4 use C N O H, $2=3 use eiter C N H or C O H as specified by $7
+if [ $2 -eq 1 ]
+then 
+    grep -E -v "O.pbe-rrkjus.UPF|N.pbe-rrkjus.UPF|H.pbe-rrkjus.UPF" $6b > $6.in
+elif [ $2 -eq 2 ]
+then
+    grep -E -v "O.pbe-rrkjus.UPF|N.pbe-rrkjus.UPF" $6b > $6.in
+elif [ $2 -eq 3 ] && [ $7 == 'N' ]
+then
+    grep -v "O.pbe-rrkjus.UPF" $6b > $6.in
+elif [ $2 -eq 3 ] && [ $7 == 'O' ]
+then
+    grep -v "N.pbe-rrkjus.UPF" $6b > $6.in
+elif [ $2 -eq 4 ]
+then
+   mv $6b  $6.in
+fi
+
+rm coor $6?
+fi
