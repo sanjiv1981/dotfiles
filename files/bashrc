@@ -182,6 +182,7 @@ export PATH=/home/sanjiv/ManuallyInstalled/siesta-3.2-pl-5/Util/Vibra/Src:$PATH
 export PATH=/home/sanjiv/ManuallyInstalled/siesta-3.2-pl-5/Util/Bands:$PATH
 export PATH=/home/sanjiv/ManuallyInstalled/lammps-16Feb16/tools/python:$PATH
 
+export EDITOR=/usr/bin/vim
 #cif2cell environmental setting
 export PATH=/home/sanjiv/bin:$PATH
 export PATH=/home/sanjiv/ManuallyInstalled/ManuallyInstalled/cif2cell-1.2.10:$PATH
